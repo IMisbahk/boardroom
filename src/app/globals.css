@@ -1,0 +1,121 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+    --primary: 38 92% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.9%;
+    --radius: 0.25rem; /* 4px low-radius */
+  }
+
+  .dark {
+    /* Base Obsidian background */
+    --background: 0 0% 0%; /* #000000 */
+    --foreground: 0 0% 98%; /* #f8f9fa */
+    
+    /* Container Surfaces */
+    --card: 0 0% 5%; /* #0b0b0b */
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 5%;
+    --popover-foreground: 0 0% 98%;
+    
+    /* Amber Accent Colors */
+    --primary: 43 100% 50%; /* #ffb800 - Custom branding amber */
+    --primary-foreground: 0 0% 0%; /* Black text on amber */
+    
+    --secondary: 0 0% 9%; /* #171717 */
+    --secondary-foreground: 0 0% 98%;
+    
+    --muted: 0 0% 9%; /* #171717 */
+    --muted-foreground: 0 0% 63.9%;
+    
+    --accent: 0 0% 9%;
+    --accent-foreground: 0 0% 98%;
+    
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    
+    /* Border graphite: #1f1f1f */
+    --border: 0 0% 12%; /* #1f1f1f */
+    --input: 0 0% 12%;
+    --ring: 43 100% 50%; /* Amber highlight focus ring */
+    --radius: 0.25rem; /* 4px low-radius */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-body;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-headline;
+    letter-spacing: 0;
+  }
+}
+
+/* Custom Brutalist Styling Helpers */
+.brutal-border {
+  border: 3px solid hsl(var(--primary));
+}
+
+.graphite-border {
+  border: 3px solid #1f1f1f;
+}
+
+.brutal-shadow {
+  box-shadow: 6px 6px 0px 0px #1f1f1f;
+}
+
+.brutal-shadow-amber {
+  box-shadow: 6px 6px 0px 0px hsl(var(--primary));
+}
+
+.brutal-hover:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 4px 4px 0px 0px hsl(var(--primary));
+  transition: all 0.15s ease-in-out;
+}
+
+.brutal-active:active {
+  transform: translate(6px, 6px);
+  box-shadow: 0px 0px 0px 0px hsl(var(--primary));
+}
+
+.neo-border {
+  border: 3px solid #1f1f1f;
+}
+
+.neo-shadow {
+  box-shadow: 6px 6px 0px 0px #1f1f1f;
+}
+
+.panel {
+  @apply bg-obsidian-card border-2 border-graphite;
+}

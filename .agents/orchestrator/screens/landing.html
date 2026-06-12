@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Boardroom - Your AI Executive Team</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed": "#ffdad6",
+                        "on-error": "#ffffff",
+                        "tertiary-fixed-dim": "#a8c6ff",
+                        "on-secondary-fixed-variant": "#1a1a1a",
+                        "outline-variant": "#d0cbc3",
+                        "primary-container": "#ffcc00",
+                        "surface-container-lowest": "#ffffff",
+                        "outline": "#1a1a1a",
+                        "inverse-on-surface": "#f5f0e8",
+                        "inverse-primary": "#f5f0e8",
+                        "primary-fixed": "#ffcc00",
+                        "on-surface-variant": "#4a4a4a",
+                        "on-primary-container": "#1a1a1a",
+                        "on-primary": "#ffffff",
+                        "on-background": "#1a1a1a",
+                        "tertiary-container": "#d6e3ff",
+                        "surface-container-low": "#f2ede5",
+                        "error": "#cc0000",
+                        "secondary-container": "#ffdad6",
+                        "surface-container": "#eee9e0",
+                        "surface-tint": "#1a1a1a",
+                        "surface-variant": "#e8e3da",
+                        "on-surface": "#1a1a1a",
+                        "on-tertiary-fixed": "#1a1a1a",
+                        "on-secondary-container": "#1a1a1a",
+                        "tertiary": "#0055ff",
+                        "background": "#f5f0e8",
+                        "on-error-container": "#93000a",
+                        "primary": "#1a1a1a",
+                        "surface": "#f5f0e8",
+                        "error-container": "#ffdad6",
+                        "surface-bright": "#faf7f2",
+                        "primary-fixed-dim": "#e6b800",
+                        "on-primary-fixed": "#1a1a1a",
+                        "secondary": "#e63b2e",
+                        "on-tertiary-container": "#1a1a1a",
+                        "surface-container-high": "#e8e3da",
+                        "tertiary-fixed": "#d6e3ff",
+                        "on-tertiary-fixed-variant": "#1a1a1a",
+                        "on-primary-fixed-variant": "#1a1a1a",
+                        "inverse-surface": "#1a1a1a",
+                        "on-secondary-fixed": "#1a1a1a",
+                        "on-secondary": "#1a1a1a",
+                        "surface-dim": "#d6d1c9",
+                        "surface-container-highest": "#e2ddd4",
+                        "secondary-fixed-dim": "#ffb3ab",
+                        "on-tertiary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Space Grotesk", "sans-serif"],
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                        "label": ["Space Grotesk", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+        }
+        
+        .neo-border {
+            border: 3px solid theme('colors.primary');
+        }
+        
+        .neo-shadow {
+            box-shadow: 6px 6px 0px 0px theme('colors.primary');
+        }
+        
+        .neo-shadow-hover:hover {
+            box-shadow: 2px 2px 0px 0px theme('colors.primary');
+            transform: translate(4px, 4px);
+        }
+
+        .neo-btn {
+            @apply font-label uppercase font-bold tracking-widest px-8 py-4 transition-all duration-150 neo-border neo-shadow neo-shadow-hover;
+        }
+
+        .neo-card {
+            @apply bg-surface p-8 neo-border flex flex-col gap-6 relative;
+        }
+        
+        .accent-corner {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 2rem;
+            height: 2rem;
+            border-left: 3px solid theme('colors.primary');
+            border-bottom: 3px solid theme('colors.primary');
+        }
+        
+        /* Noise overlay for texture */
+        .noise-bg {
+            position: relative;
+        }
+        .noise-bg::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.04;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col noise-bg">
+<!-- TopNavBar -->
+<nav class="bg-background text-on-background font-headline text-display-sm uppercase tracking-tighter docked full-width top-0 border-b-2 border-primary shadow-[4px_4px_0px_0px_rgba(26,26,26,1)] flex justify-between items-center w-full px-6 py-4 max-w-full sticky z-50">
+<div class="text-2xl font-display font-black text-primary uppercase tracking-widest flex items-center gap-2">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">dataset</span>
+            Boardroom
+        </div>
+<div class="hidden md:flex gap-8 items-center">
+<a class="text-tertiary font-bold border-b-2 border-tertiary pb-1" href="#">Platform</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-150" href="#">Governance</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-150" href="#">Insights</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-150" href="#">Case Studies</a>
+</div>
+<div class="flex gap-4 items-center">
+<button class="hidden lg:block text-on-surface-variant font-bold uppercase tracking-widest hover:text-primary transition-colors text-sm">
+                Watch Live Discussion
+            </button>
+<button class="bg-primary text-on-primary font-bold uppercase tracking-widest px-6 py-3 border-2 border-primary hover:bg-primary-fixed hover:text-on-primary-fixed transition-colors duration-150 text-sm neo-shadow">
+                Start a Meeting
+            </button>
+</div>
+</nav>
+<main class="flex-grow">
+<!-- Hero Section -->
+<section class="relative pt-32 pb-24 px-6 lg:px-12 overflow-hidden flex flex-col items-center text-center border-b-[3px] border-primary">
+<div class="absolute top-0 left-0 w-full h-full pointer-events-none opacity-20 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-primary-fixed to-transparent"></div>
+<div class="max-w-5xl z-10 space-y-8">
+<div class="inline-flex items-center gap-2 bg-surface border-2 border-primary px-4 py-2 uppercase tracking-widest text-sm font-bold shadow-[2px_2px_0px_0px_rgba(26,26,26,1)] mb-4">
+<span class="w-2 h-2 bg-secondary rounded-full animate-pulse"></span>
+                    Now in Beta
+                </div>
+<h1 class="font-headline text-6xl md:text-8xl lg:text-[7rem] font-black leading-[0.9] tracking-tighter text-primary">
+                    YOUR AI<br/>
+<span class="text-tertiary relative inline-block">
+                        EXECUTIVE
+                        <svg class="absolute -bottom-2 left-0 w-full h-4 text-primary-fixed" preserveaspectratio="none" viewbox="0 0 100 10">
+<path d="M0 5 Q 50 10 100 5" fill="none" stroke="currentColor" stroke-width="4"></path>
+</svg>
+</span><br/>
+                    TEAM.
+                </h1>
+<p class="font-body text-xl md:text-2xl text-on-surface-variant max-w-3xl mx-auto leading-relaxed border-l-4 border-primary-fixed pl-6 text-left mt-12">
+                    Stop making isolated decisions. Get instant, multi-disciplinary strategic guidance from simulated Investor, CTO, Product, Growth, and Customer experts.
+                </p>
+<div class="flex flex-col sm:flex-row gap-6 justify-center pt-8">
+<button class="bg-primary text-on-primary neo-btn text-lg">
+                        Assemble Your Board
+                    </button>
+<button class="bg-surface text-primary neo-btn text-lg">
+                        View Demo Simulation
+                    </button>
+</div>
+</div>
+<!-- Cinematic Visualization Placeholder -->
+<div class="w-full max-w-6xl mt-24 neo-border neo-shadow bg-surface relative h-[400px] overflow-hidden flex items-center justify-center">
+<img alt="Abstract geometric visualization of a boardroom" class="absolute inset-0 w-full h-full object-cover opacity-40 grayscale mix-blend-multiply" data-alt="A striking digital installation art piece featuring glowing, generative geometric shapes suspended in a vast, minimalist gallery space. The room is illuminated by high-key, soft white lighting that creates a bright, modern light-mode aesthetic. The artwork relies on a sophisticated palette of deep blacks and pristine whites, punctuated by intense accents of vibrant red. The mood is serene yet technologically advanced." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPXvnJUkUiHrY9c83bgLl3o5x4sEGwJvgYqryeJEg5Kcw2Vk8q1ATXK7zSKzsI1i1-HqBWtIIy42iNQAhEL3yiL6l0sCHXA-_2WMl9zrY6i19zdIQRJ2ZQZlme_6fH-VyHcHbtpcdtV4GBOgWp9bAo30SebfN7lStGwsgsfYWmMF09aaTcN285WnNT-zrddJwNOGvKnUIqxsa1NHYJP7_T8OsA-SsQzOBzXj_tffDUCsJhVVtKhHmnomnK1LPcNwtAR9rqxEjMzvs"/>
+<div class="absolute inset-0 bg-primary/10 mix-blend-overlay"></div>
+<div class="z-10 font-headline text-3xl font-bold tracking-widest uppercase border-4 border-primary px-8 py-4 bg-surface text-primary shadow-[8px_8px_0px_0px_rgba(26,26,26,1)] flex items-center gap-4">
+<span class="material-symbols-outlined text-4xl text-secondary">graphic_eq</span>
+                    Active Simulation
+                </div>
+</div>
+</section>
+<!-- Executive Team Showcase (Bento Grid) -->
+<section class="py-32 px-6 lg:px-12 bg-surface-container-low border-b-[3px] border-primary">
+<div class="max-w-7xl mx-auto">
+<div class="mb-16 flex flex-col md:flex-row justify-between items-end gap-8 border-b-4 border-primary pb-8">
+<div>
+<h2 class="font-headline text-5xl md:text-7xl font-black tracking-tighter uppercase">The<br/>Principals</h2>
+</div>
+<p class="font-body text-lg text-on-surface-variant max-w-md font-medium">
+                        Purpose-built AI models trained on decades of industry-specific frameworks, failure patterns, and success metrics.
+                    </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- CTO -->
+<div class="neo-card bg-surface-bright group hover:bg-tertiary-container transition-colors duration-300">
+<div class="accent-corner bg-tertiary"></div>
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-5xl text-tertiary">terminal</span>
+<span class="font-label font-bold text-xs uppercase tracking-widest border border-outline px-2 py-1">Tech / Infra</span>
+</div>
+<div class="mt-8">
+<h3 class="font-headline text-3xl font-bold uppercase tracking-tight mb-2">The Architect</h3>
+<p class="font-body text-on-surface-variant mb-6 h-24">Evaluates technical debt, scalability constraints, and architectural decisions against business timelines.</p>
+<div class="border-t-2 border-primary pt-4 mt-auto">
+<span class="block text-xs font-bold uppercase tracking-widest text-primary mb-1">Bias</span>
+<span class="font-body font-medium">Long-term stability over short-term speed.</span>
+</div>
+</div>
+</div>
+<!-- Growth -->
+<div class="neo-card bg-surface-bright group hover:bg-primary-container transition-colors duration-300">
+<div class="accent-corner bg-primary-fixed"></div>
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-5xl text-primary-fixed-dim">trending_up</span>
+<span class="font-label font-bold text-xs uppercase tracking-widest border border-outline px-2 py-1">GTM / Sales</span>
+</div>
+<div class="mt-8">
+<h3 class="font-headline text-3xl font-bold uppercase tracking-tight mb-2">The Catalyst</h3>
+<p class="font-body text-on-surface-variant mb-6 h-24">Identifies compounding growth loops, acquisition channel viability, and pricing elasticity.</p>
+<div class="border-t-2 border-primary pt-4 mt-auto">
+<span class="block text-xs font-bold uppercase tracking-widest text-primary mb-1">Bias</span>
+<span class="font-body font-medium">Aggressive market capture and velocity.</span>
+</div>
+</div>
+</div>
+<!-- Risk / Investor -->
+<div class="neo-card bg-surface-bright group hover:bg-secondary-container transition-colors duration-300">
+<div class="accent-corner bg-secondary"></div>
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-5xl text-secondary">account_balance</span>
+<span class="font-label font-bold text-xs uppercase tracking-widest border border-outline px-2 py-1">Capital / Risk</span>
+</div>
+<div class="mt-8">
+<h3 class="font-headline text-3xl font-bold uppercase tracking-tight mb-2">The Auditor</h3>
+<p class="font-body text-on-surface-variant mb-6 h-24">Assesses unit economics, burn rate sustainability, and existential threats to the business model.</p>
+<div class="border-t-2 border-primary pt-4 mt-auto">
+<span class="block text-xs font-bold uppercase tracking-widest text-primary mb-1">Bias</span>
+<span class="font-body font-medium">Capital efficiency and downside protection.</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Live Debate Section -->
+<section class="py-32 px-6 lg:px-12 bg-primary text-on-primary overflow-hidden relative">
+<div class="max-w-6xl mx-auto relative z-10">
+<div class="text-center mb-16">
+<h2 class="font-headline text-5xl md:text-7xl font-black tracking-tighter uppercase text-surface">Synthesized<br/><span class="text-primary-fixed">Friction</span></h2>
+<p class="font-body text-xl text-outline-variant max-w-2xl mx-auto mt-6">
+                        Real strategy isn't unanimous. Watch your AI board debate trade-offs to expose blind spots before you commit capital.
+                    </p>
+</div>
+<div class="bg-surface text-primary p-8 md:p-12 neo-border shadow-[12px_12px_0px_0px_rgba(255,204,0,1)] relative max-w-4xl mx-auto">
+<!-- Top Bar -->
+<div class="flex justify-between items-center border-b-3 border-primary pb-4 mb-8">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary animate-pulse" style="font-variation-settings: 'FILL' 1;">fiber_manual_record</span>
+<span class="font-label font-bold uppercase tracking-widest">Topic: Q3 Pivot Strategy</span>
+</div>
+<span class="font-label text-sm border-2 border-primary px-3 py-1 font-bold">T-Minus 4m</span>
+</div>
+<!-- Conversation Thread -->
+<div class="space-y-8">
+<!-- Message 1 -->
+<div class="flex gap-6 max-w-3xl">
+<div class="w-12 h-12 bg-primary-fixed border-2 border-primary flex items-center justify-center flex-shrink-0 shadow-[2px_2px_0px_0px_rgba(26,26,26,1)]">
+<span class="material-symbols-outlined text-primary font-bold">trending_up</span>
+</div>
+<div>
+<div class="flex items-baseline gap-3 mb-1">
+<span class="font-headline font-bold text-lg uppercase tracking-tight">The Catalyst</span>
+<span class="font-body text-xs text-on-surface-variant font-bold">Growth</span>
+</div>
+<div class="bg-surface-bright border-2 border-primary p-4 shadow-[4px_4px_0px_0px_rgba(26,26,26,1)] text-lg font-medium leading-relaxed">
+                                    We need to aggressively push the freemium tier. The CAC on enterprise is rising, and we need top-of-funnel volume to hit the EOY target.
+                                </div>
+</div>
+</div>
+<!-- Message 2 -->
+<div class="flex gap-6 max-w-3xl ml-auto flex-row-reverse text-right">
+<div class="w-12 h-12 bg-secondary border-2 border-primary flex items-center justify-center flex-shrink-0 shadow-[-2px_2px_0px_0px_rgba(26,26,26,1)]">
+<span class="material-symbols-outlined text-surface font-bold">account_balance</span>
+</div>
+<div>
+<div class="flex items-baseline justify-end gap-3 mb-1">
+<span class="font-body text-xs text-on-surface-variant font-bold">Risk</span>
+<span class="font-headline font-bold text-lg uppercase tracking-tight">The Auditor</span>
+</div>
+<div class="bg-surface-container-high border-2 border-primary p-4 shadow-[-4px_4px_0px_0px_rgba(26,26,26,1)] text-lg font-medium leading-relaxed text-left">
+                                    Absolutely not. Opening freemium without gated compute limits will burn through our AWS credits in 6 weeks. We margin-crush ourselves before we even identify the conversion trigger.
+                                </div>
+</div>
+</div>
+<!-- Message 3 -->
+<div class="flex gap-6 max-w-3xl">
+<div class="w-12 h-12 bg-tertiary border-2 border-primary flex items-center justify-center flex-shrink-0 shadow-[2px_2px_0px_0px_rgba(26,26,26,1)]">
+<span class="material-symbols-outlined text-surface font-bold">terminal</span>
+</div>
+<div>
+<div class="flex items-baseline gap-3 mb-1">
+<span class="font-headline font-bold text-lg uppercase tracking-tight">The Architect</span>
+<span class="font-body text-xs text-on-surface-variant font-bold">Tech</span>
+</div>
+<div class="bg-surface-bright border-2 border-primary p-4 shadow-[4px_4px_0px_0px_rgba(26,26,26,1)] text-lg font-medium leading-relaxed">
+                                    Auditor is right. Unless we spend the next sprint refactoring the core queuing service to throttle free users, the infrastructure will buckle under arbitrary load.
+                                </div>
+</div>
+</div>
+</div>
+<div class="mt-12 pt-8 border-t-3 border-primary flex justify-center">
+<button class="flex items-center gap-2 font-label uppercase font-bold tracking-widest text-tertiary hover:text-primary transition-colors">
+                            Inject Your Perspective <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Final CTA -->
+<section class="py-32 px-6 lg:px-12 bg-primary-fixed border-b-[3px] border-primary">
+<div class="max-w-4xl mx-auto text-center space-y-10">
+<h2 class="font-headline text-6xl md:text-8xl font-black tracking-tighter uppercase text-primary leading-none">
+                    Stop Guessing.<br/>Start Governing.
+                </h2>
+<p class="font-body text-2xl text-primary font-medium max-w-2xl mx-auto">
+                    The most powerful asset in business is clear, unvarnished truth. Assemble your AI executive team today.
+                </p>
+<div class="pt-8 flex flex-col sm:flex-row justify-center gap-6">
+<button class="bg-primary text-surface neo-btn text-xl px-12 py-6">
+                        Deploy Your Board
+                    </button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-primary dark:bg-surface-container-lowest text-on-primary dark:text-on-surface font-label text-label-md uppercase tracking-widest full-width bottom-0 border-t-4 border-primary dark:border-primary-fixed flat no shadows flex flex-col md:flex-row justify-between items-center w-full px-12 py-8 mt-auto z-10">
+<div class="text-xl font-display font-black text-primary-fixed dark:text-primary mb-6 md:mb-0 flex items-center gap-2">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">dataset</span>
+            Boardroom
+        </div>
+<div class="flex flex-wrap justify-center gap-8 mb-6 md:mb-0">
+<a class="text-outline-variant opacity-70 hover:text-tertiary-fixed dark:hover:text-tertiary transition-opacity" href="#">Privacy Protocol</a>
+<a class="text-outline-variant opacity-70 hover:text-tertiary-fixed dark:hover:text-tertiary transition-opacity" href="#">Governance Standards</a>
+<a class="text-outline-variant opacity-70 hover:text-tertiary-fixed dark:hover:text-tertiary transition-opacity" href="#">Terms of Service</a>
+<a class="text-outline-variant opacity-70 hover:text-tertiary-fixed dark:hover:text-tertiary transition-opacity" href="#">Security</a>
+</div>
+<div class="text-outline-variant opacity-50 text-sm">
+            © 2024 BOARDROOM STRATEGIC. ALL RIGHTS RESERVED.
+        </div>
+</footer>
+</body></html>

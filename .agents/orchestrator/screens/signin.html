@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BOARDROOM - Identity Verification</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@400;600;700;800;900&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary-fixed": "#d6e3ff",
+                      "on-surface": "#1a1a1a",
+                      "surface-bright": "#faf7f2",
+                      "on-tertiary": "#ffffff",
+                      "secondary-container": "#ffdad6",
+                      "surface-container-highest": "#e2ddd4",
+                      "surface-tint": "#1a1a1a",
+                      "on-primary-container": "#1a1a1a",
+                      "surface-container-low": "#f2ede5",
+                      "on-primary": "#ffffff",
+                      "inverse-primary": "#f5f0e8",
+                      "surface-container": "#eee9e0",
+                      "inverse-surface": "#1a1a1a",
+                      "error": "#cc0000",
+                      "on-secondary-fixed": "#1a1a1a",
+                      "on-secondary": "#1a1a1a",
+                      "on-primary-fixed-variant": "#1a1a1a",
+                      "outline": "#1a1a1a",
+                      "on-secondary-container": "#1a1a1a",
+                      "primary-fixed-dim": "#e6b800",
+                      "outline-variant": "#d0cbc3",
+                      "tertiary": "#0055ff",
+                      "on-background": "#1a1a1a",
+                      "tertiary-fixed-dim": "#a8c6ff",
+                      "surface-container-high": "#e8e3da",
+                      "secondary": "#e63b2e",
+                      "primary-fixed": "#ffcc00",
+                      "inverse-on-surface": "#f5f0e8",
+                      "on-error": "#ffffff",
+                      "surface": "#f5f0e8",
+                      "on-surface-variant": "#4a4a4a",
+                      "error-container": "#ffdad6",
+                      "on-error-container": "#93000a",
+                      "surface-container-lowest": "#ffffff",
+                      "on-tertiary-fixed": "#1a1a1a",
+                      "primary": "#1a1a1a",
+                      "secondary-fixed-dim": "#ffb3ab",
+                      "secondary-fixed": "#ffdad6",
+                      "primary-container": "#ffcc00",
+                      "tertiary-container": "#d6e3ff",
+                      "on-primary-fixed": "#1a1a1a",
+                      "background": "#f5f0e8",
+                      "surface-dim": "#d6d1c9",
+                      "on-tertiary-fixed-variant": "#1a1a1a",
+                      "surface-variant": "#e8e3da",
+                      "on-tertiary-container": "#1a1a1a",
+                      "on-secondary-fixed-variant": "#1a1a1a"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0px",
+                      "lg": "0px",
+                      "xl": "0px",
+                      "full": "0px"
+              },
+              "spacing": {},
+              "fontFamily": {
+                      "headline": [
+                              "Space Grotesk"
+                      ],
+                      "display": [
+                              "Space Grotesk"
+                      ],
+                      "body": [
+                              "Inter"
+                      ],
+                      "label": [
+                              "Space Grotesk"
+                      ]
+              },
+              "fontSize": {}
+      },
+          },
+        }
+      </script>
+<style>
+        /* Minimalist grid background inspired by Bauhaus blueprints */
+        .bg-grid-pattern {
+            background-image: 
+                linear-gradient(to right, rgba(26, 26, 26, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(26, 26, 26, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        
+        /* Brutalist offset shadow utility */
+        .shadow-brutal {
+            box-shadow: 6px 6px 0px 0px #1a1a1a;
+        }
+        .shadow-brutal-sm {
+            box-shadow: 4px 4px 0px 0px #1a1a1a;
+        }
+        
+        /* Hide default focus rings for custom brutalist focus */
+        .focus-brutal:focus {
+            outline: none;
+            border-bottom-width: 4px;
+            border-color: #ffcc00;
+        }
+      </style>
+</head>
+<body class="bg-background text-on-surface font-body min-h-screen flex items-center justify-center bg-grid-pattern overflow-x-hidden relative selection:bg-primary-fixed selection:text-primary">
+<!-- Subtle animated structural element - abstract geometry -->
+<div class="fixed top-10 left-10 w-32 h-32 border-4 border-primary/10 -z-10 animate-[spin_60s_linear_infinite]"></div>
+<div class="fixed bottom-10 right-10 w-48 h-48 border-4 border-primary/10 rounded-full -z-10 animate-[ping_10s_cubic-bezier(0,0,0.2,1)_infinite]"></div>
+<!-- Main Authentication Container -->
+<main class="w-full max-w-md px-6 py-12 md:p-12 bg-surface-lowest border-4 border-primary shadow-brutal relative z-10 mx-4 bg-white">
+<!-- Header Section -->
+<header class="mb-10 text-center">
+<h1 class="font-headline text-4xl md:text-5xl font-black uppercase tracking-tighter mb-4 text-primary leading-none">
+                IDENTITY<br/>VERIFICATION
+            </h1>
+<p class="font-body text-base font-medium text-on-surface-variant tracking-widest uppercase">
+                Access the Executive Suite
+            </p>
+</header>
+<!-- Form Section -->
+<form action="#" class="space-y-8" method="POST">
+<div class="space-y-6">
+<!-- Email Field -->
+<div class="relative group">
+<label class="block font-headline text-sm font-bold uppercase tracking-wider text-primary mb-2" for="email">Work Email</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-0 top-1/2 -translate-y-1/2 text-primary text-xl" style="font-variation-settings: 'FILL' 1;">
+                            mail
+                        </span>
+<input class="block w-full border-0 border-b-4 border-primary bg-transparent py-3 pl-8 pr-4 text-primary font-body text-lg focus-brutal placeholder:text-on-surface-variant/50 transition-colors" id="email" name="email" placeholder="executive@boardroom.com" required="" type="email"/>
+</div>
+</div>
+<!-- Password Field -->
+<div class="relative group">
+<div class="flex justify-between items-baseline mb-2">
+<label class="block font-headline text-sm font-bold uppercase tracking-wider text-primary" for="password">Password</label>
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-0 top-1/2 -translate-y-1/2 text-primary text-xl" style="font-variation-settings: 'FILL' 1;">
+                            lock
+                        </span>
+<input class="block w-full border-0 border-b-4 border-primary bg-transparent py-3 pl-8 pr-4 text-primary font-body text-lg focus-brutal placeholder:text-on-surface-variant/50 transition-colors" id="password" name="password" placeholder="••••••••••••" required="" type="password"/>
+</div>
+</div>
+</div>
+<!-- Action Section -->
+<div class="pt-4 space-y-6">
+<button class="w-full bg-primary text-primary-fixed font-headline font-bold text-xl uppercase py-4 px-6 border-4 border-primary hover:bg-primary-fixed hover:text-primary transition-colors duration-150 active:translate-y-1 active:translate-x-1 shadow-brutal-sm active:shadow-none flex items-center justify-center gap-3" type="submit">
+<span>ENTER BOARDROOM</span>
+<span class="material-symbols-outlined font-bold">arrow_forward</span>
+</button>
+<!-- Alternative Links -->
+<div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t-2 border-primary/20">
+<a class="font-headline text-sm font-bold uppercase text-tertiary hover:bg-tertiary hover:text-on-tertiary px-2 py-1 transition-colors" href="#">
+                        Single Sign-On
+                    </a>
+<a class="font-headline text-sm font-bold uppercase text-on-surface-variant hover:text-primary hover:bg-primary hover:text-on-primary px-2 py-1 transition-colors" href="#">
+                        Request Access
+                    </a>
+</div>
+</div>
+</form>
+</main>
+<!-- Decorative Corner Anchors -->
+<div class="fixed top-0 left-0 w-8 h-8 border-t-4 border-l-4 border-primary m-4 pointer-events-none"></div>
+<div class="fixed top-0 right-0 w-8 h-8 border-t-4 border-r-4 border-primary m-4 pointer-events-none"></div>
+<div class="fixed bottom-0 left-0 w-8 h-8 border-b-4 border-l-4 border-primary m-4 pointer-events-none"></div>
+<div class="fixed bottom-0 right-0 w-8 h-8 border-b-4 border-r-4 border-primary m-4 pointer-events-none"></div>
+</body></html>

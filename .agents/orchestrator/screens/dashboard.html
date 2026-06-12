@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nimbus Internal Command Center</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Grotesk:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary-fixed": "#d6e3ff",
+                      "on-surface": "#1a1a1a",
+                      "surface-bright": "#faf7f2",
+                      "on-tertiary": "#ffffff",
+                      "secondary-container": "#ffdad6",
+                      "surface-container-highest": "#e2ddd4",
+                      "surface-tint": "#1a1a1a",
+                      "on-primary-container": "#1a1a1a",
+                      "surface-container-low": "#f2ede5",
+                      "on-primary": "#ffffff",
+                      "inverse-primary": "#f5f0e8",
+                      "surface-container": "#eee9e0",
+                      "inverse-surface": "#1a1a1a",
+                      "error": "#cc0000",
+                      "on-secondary-fixed": "#1a1a1a",
+                      "on-secondary": "#1a1a1a",
+                      "on-primary-fixed-variant": "#1a1a1a",
+                      "outline": "#1a1a1a",
+                      "on-secondary-container": "#1a1a1a",
+                      "primary-fixed-dim": "#e6b800",
+                      "outline-variant": "#d0cbc3",
+                      "tertiary": "#0055ff",
+                      "on-background": "#1a1a1a",
+                      "tertiary-fixed-dim": "#a8c6ff",
+                      "surface-container-high": "#e8e3da",
+                      "secondary": "#e63b2e",
+                      "primary-fixed": "#ffcc00",
+                      "inverse-on-surface": "#f5f0e8",
+                      "on-error": "#ffffff",
+                      "surface": "#f5f0e8",
+                      "on-surface-variant": "#4a4a4a",
+                      "error-container": "#ffdad6",
+                      "on-error-container": "#93000a",
+                      "surface-container-lowest": "#ffffff",
+                      "on-tertiary-fixed": "#1a1a1a",
+                      "primary": "#1a1a1a",
+                      "secondary-fixed-dim": "#ffb3ab",
+                      "secondary-fixed": "#ffdad6",
+                      "primary-container": "#ffcc00",
+                      "tertiary-container": "#d6e3ff",
+                      "on-primary-fixed": "#1a1a1a",
+                      "background": "#f5f0e8",
+                      "surface-dim": "#d6d1c9",
+                      "on-tertiary-fixed-variant": "#1a1a1a",
+                      "surface-variant": "#e8e3da",
+                      "on-tertiary-container": "#1a1a1a",
+                      "on-secondary-fixed-variant": "#1a1a1a"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {},
+              "fontFamily": {
+                      "headline": [
+                              "Space Grotesk"
+                      ],
+                      "display": [
+                              "Space Grotesk"
+                      ],
+                      "body": [
+                              "Inter"
+                      ],
+                      "label": [
+                              "Space Grotesk"
+                      ]
+              },
+              "fontSize": {}
+      },
+          },
+        }
+      </script>
+<style>
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.on-surface');
+            font-family: theme('fontFamily.body');
+        }
+        
+        .brutal-border {
+            border: 3px solid theme('colors.primary');
+        }
+        
+        .brutal-shadow {
+            box-shadow: 6px 6px 0px 0px theme('colors.primary');
+        }
+        
+        .brutal-hover:hover {
+            transform: translate(2px, 2px);
+            box-shadow: 4px 4px 0px 0px theme('colors.primary');
+            transition: all 0.1s ease;
+        }
+        
+        .brutal-active:active {
+            transform: translate(6px, 6px);
+            box-shadow: 0px 0px 0px 0px theme('colors.primary');
+        }
+        
+        .heading-massive {
+            font-size: clamp(3rem, 5vw, 6rem);
+            line-height: 1;
+            letter-spacing: -0.05em;
+        }
+        
+        /* Custom scrollbar for raw brutalist feel */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+        ::-webkit-scrollbar-track {
+            background: theme('colors.surface-variant');
+            border-left: 2px solid theme('colors.primary');
+        }
+        ::-webkit-scrollbar-thumb {
+            background: theme('colors.primary');
+        }
+    </style>
+</head>
+<body class="flex min-h-screen bg-background dark:bg-surface text-primary dark:text-on-surface font-body overflow-hidden">
+<!-- SideNavBar Shared Component (Blueprint) -->
+<nav class="hidden md:flex flex-col h-screen w-64 fixed left-0 top-0 border-r-4 border-primary dark:border-outline bg-background dark:bg-surface text-primary dark:text-on-surface font-headline text-lg font-bold uppercase p-4 overflow-y-auto z-50">
+<div class="mb-8">
+<span class="font-headline text-2xl font-black bg-primary text-primary-container p-2 block brutal-shadow">BOARDROOM</span>
+<span class="text-xs tracking-widest mt-2 block opacity-70">V.01-AI</span>
+</div>
+<div class="flex flex-col gap-2 flex-grow mt-8">
+<!-- Active State: Conceptually matching Context/Dashboard -->
+<a class="flex items-center gap-3 bg-primary-container text-on-primary-container border-2 border-primary p-3 mb-2 brutal-shadow brutal-hover" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">database</span>
+                Context
+            </a>
+<!-- Inactive States -->
+<a class="flex items-center gap-3 text-on-surface p-3 mb-2 hover:bg-tertiary-container transition-all hover:bg-primary-fixed hover:text-on-primary-fixed border-2 border-transparent hover:border-primary" href="#">
+<span class="material-symbols-outlined">event_seat</span>
+                Meetings
+            </a>
+<a class="flex items-center gap-3 text-on-surface p-3 mb-2 hover:bg-tertiary-container transition-all hover:bg-primary-fixed hover:text-on-primary-fixed border-2 border-transparent hover:border-primary" href="#">
+<span class="material-symbols-outlined">groups</span>
+                Team
+            </a>
+<a class="flex items-center gap-3 text-on-surface p-3 mb-2 hover:bg-tertiary-container transition-all hover:bg-primary-fixed hover:text-on-primary-fixed border-2 border-transparent hover:border-primary" href="#">
+<span class="material-symbols-outlined">gavel</span>
+                Decisions
+            </a>
+<a class="flex items-center gap-3 text-on-surface p-3 mb-2 hover:bg-tertiary-container transition-all hover:bg-primary-fixed hover:text-on-primary-fixed border-2 border-transparent hover:border-primary" href="#">
+<span class="material-symbols-outlined">analytics</span>
+                Reports
+            </a>
+</div>
+<div class="mt-auto pt-8 border-t-4 border-primary border-dashed">
+<button class="w-full bg-primary text-on-primary font-headline font-black uppercase p-4 brutal-shadow brutal-hover brutal-active active:scale-95 transition-transform mb-6 text-xl tracking-tighter">
+                New Decision
+            </button>
+<div class="flex flex-col gap-2 opacity-80">
+<a class="flex items-center gap-3 text-on-surface hover:text-primary transition-all text-sm" href="#">
+<span class="material-symbols-outlined text-[18px]">settings</span>
+                    Settings
+                </a>
+<a class="flex items-center gap-3 text-on-surface hover:text-primary transition-all text-sm mt-2" href="#">
+<span class="material-symbols-outlined text-[18px]">help_center</span>
+                    Support
+                </a>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="w-full md:ml-64 h-screen overflow-y-auto bg-surface-container-lowest">
+<!-- Header Strip -->
+<header class="w-full border-b-4 border-primary px-8 py-6 flex justify-between items-center bg-background sticky top-0 z-40 brutal-shadow">
+<h1 class="font-headline text-3xl md:text-5xl font-black uppercase tracking-tighter">WELCOME, FOUNDER</h1>
+<div class="flex items-center gap-4 hidden sm:flex">
+<div class="text-right">
+<div class="font-headline font-bold text-sm">NIMBUS INTERNAL</div>
+<div class="text-xs opacity-70">SYSTEM STATUS: NOMINAL</div>
+</div>
+<div class="w-12 h-12 bg-primary text-primary-container flex items-center justify-center font-headline font-black text-xl brutal-shadow">
+                    F
+                </div>
+</div>
+</header>
+<div class="p-4 md:p-8 max-w-7xl mx-auto space-y-8">
+<!-- Primary Directive Hero Card -->
+<section class="bg-primary-container text-on-primary-container brutal-border brutal-shadow p-8 md:p-12 relative overflow-hidden">
+<!-- Decorative background elements -->
+<div class="absolute -right-20 -top-20 opacity-20 pointer-events-none">
+<span class="material-symbols-outlined text-[300px]" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<div class="relative z-10">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1;">target</span>
+<h2 class="font-headline text-xl md:text-2xl font-bold uppercase tracking-widest border-b-2 border-primary inline-block pb-1">Primary Directive</h2>
+</div>
+<h3 class="font-headline heading-massive font-black uppercase max-w-5xl mb-8 leading-none">
+                        THE BOARD RECOMMENDS PRIORITIZING RETENTION OVER GROWTH THIS QUARTER.
+                    </h3>
+<div class="flex flex-wrap gap-4 mt-8">
+<button class="bg-primary text-on-primary font-headline font-bold text-lg uppercase px-8 py-4 brutal-shadow brutal-hover brutal-active">
+                            Acknowledge
+                        </button>
+<button class="bg-transparent border-4 border-primary text-primary font-headline font-bold text-lg uppercase px-8 py-4 brutal-shadow brutal-hover brutal-active hover:bg-primary hover:text-on-primary transition-colors">
+                            View Analysis
+                        </button>
+</div>
+</div>
+</section>
+<!-- 3 Column Grid Setup -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-start">
+<!-- Column 1: Upcoming Discussions -->
+<section class="space-y-6">
+<div class="flex items-center justify-between border-b-4 border-primary pb-2">
+<h3 class="font-headline text-2xl font-black uppercase">Discussions</h3>
+<span class="material-symbols-outlined text-3xl">forum</span>
+</div>
+<!-- Card 1 -->
+<div class="bg-background brutal-border brutal-shadow p-6 hover:bg-surface-variant transition-colors group cursor-pointer">
+<div class="flex justify-between items-start mb-4">
+<span class="bg-tertiary text-on-tertiary text-xs font-bold px-2 py-1 uppercase tracking-wider brutal-border border-2">URGENT</span>
+<span class="font-headline text-sm font-bold">14:00 EST</span>
+</div>
+<h4 class="font-headline text-xl font-bold uppercase mb-2 group-hover:text-tertiary transition-colors">Seed Round Strategy</h4>
+<p class="text-sm text-on-surface-variant mb-4 font-body leading-relaxed">Aligning term sheet expectations before final partner meeting.</p>
+<div class="border-t-2 border-primary pt-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">groups</span>
+<span class="text-xs font-bold uppercase">4 Attendees Required</span>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-background brutal-border p-6 hover:bg-surface-variant transition-colors group cursor-pointer border-dashed">
+<div class="flex justify-between items-start mb-4">
+<span class="bg-surface-dim text-on-surface text-xs font-bold px-2 py-1 uppercase tracking-wider brutal-border border-2">PLANNING</span>
+<span class="font-headline text-sm font-bold">TMW</span>
+</div>
+<h4 class="font-headline text-xl font-bold uppercase mb-2">European Expansion</h4>
+<p class="text-sm text-on-surface-variant mb-4 font-body leading-relaxed">Reviewing regulatory compliance blockers in DACH region.</p>
+</div>
+</section>
+<!-- Column 2: Executive Insights -->
+<section class="space-y-6">
+<div class="flex items-center justify-between border-b-4 border-primary pb-2">
+<h3 class="font-headline text-2xl font-black uppercase">Insights</h3>
+<span class="material-symbols-outlined text-3xl">lightbulb</span>
+</div>
+<!-- Card 1 (Red Accent for Risk) -->
+<div class="bg-error-container text-on-error-container brutal-border border-error brutal-shadow shadow-error p-6 relative">
+<div class="absolute top-4 right-4 text-error">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<h5 class="font-headline text-sm font-bold uppercase tracking-widest mb-1 text-error">CTO Risk Flag</h5>
+<h4 class="font-headline text-xl font-black uppercase mb-3">Technical Debt</h4>
+<p class="text-sm font-body leading-relaxed font-medium">Core infrastructure refactor delayed by 3 sprints. System latency increasing by 12% week-over-week.</p>
+<button class="mt-4 border-b-2 border-error font-headline font-bold text-sm uppercase hover:text-error transition-colors pb-1">Review Git Logs →</button>
+</div>
+<!-- Card 2 (Blue Accent for Opportunity) -->
+<div class="bg-tertiary-container text-on-tertiary-container brutal-border border-tertiary brutal-shadow shadow-tertiary p-6 relative">
+<div class="absolute top-4 right-4 text-tertiary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">trending_up</span>
+</div>
+<h5 class="font-headline text-sm font-bold uppercase tracking-widest mb-1 text-tertiary">CMO Opportunity</h5>
+<h4 class="font-headline text-xl font-black uppercase mb-3">Enterprise Pipeline</h4>
+<p class="text-sm font-body leading-relaxed font-medium">Inbound leads from Fortune 500 tier up 40% post-conference. Sales capacity constrained.</p>
+<button class="mt-4 border-b-2 border-tertiary font-headline font-bold text-sm uppercase hover:text-tertiary transition-colors pb-1">Adjust Ad Spend →</button>
+</div>
+</section>
+<!-- Column 3: Recent Decisions -->
+<section class="space-y-6">
+<div class="flex items-center justify-between border-b-4 border-primary pb-2">
+<h3 class="font-headline text-2xl font-black uppercase">Decisions</h3>
+<span class="material-symbols-outlined text-3xl">gavel</span>
+</div>
+<div class="bg-background brutal-border p-0">
+<!-- List Item 1 -->
+<div class="p-4 border-b-4 border-primary flex gap-4 hover:bg-surface-variant transition-colors cursor-pointer group">
+<div class="w-12 h-12 flex-shrink-0 bg-primary text-on-primary flex items-center justify-center font-headline font-bold brutal-shadow">
+<span class="material-symbols-outlined">check</span>
+</div>
+<div>
+<h4 class="font-headline text-lg font-bold uppercase group-hover:underline decoration-2 underline-offset-4">Hiring Freeze Lifted</h4>
+<p class="text-xs text-on-surface-variant font-body mt-1">Approved for Q3 Engineering roles only.</p>
+</div>
+</div>
+<!-- List Item 2 -->
+<div class="p-4 border-b-4 border-primary flex gap-4 hover:bg-surface-variant transition-colors cursor-pointer group">
+<div class="w-12 h-12 flex-shrink-0 bg-surface-dim text-on-surface border-2 border-primary flex items-center justify-center font-headline font-bold">
+<span class="material-symbols-outlined">close</span>
+</div>
+<div>
+<h4 class="font-headline text-lg font-bold uppercase text-on-surface-variant line-through decoration-primary decoration-2 group-hover:text-primary">Acquisition Offer</h4>
+<p class="text-xs text-on-surface-variant font-body mt-1">Rejected preliminary terms from Competitor X.</p>
+</div>
+</div>
+<!-- List Item 3 -->
+<div class="p-4 flex gap-4 hover:bg-surface-variant transition-colors cursor-pointer group">
+<div class="w-12 h-12 flex-shrink-0 bg-primary-fixed text-on-primary-fixed border-2 border-primary flex items-center justify-center font-headline font-bold brutal-shadow">
+<span class="material-symbols-outlined">sync</span>
+</div>
+<div>
+<h4 class="font-headline text-lg font-bold uppercase group-hover:text-primary-fixed-dim">Pivot to B2B</h4>
+<p class="text-xs text-on-surface-variant font-body mt-1">Ongoing rollout phase 2 of 4.</p>
+</div>
+</div>
+</div>
+<button class="w-full bg-transparent border-4 border-primary text-primary font-headline font-bold uppercase p-3 brutal-shadow brutal-hover brutal-active hover:bg-primary hover:text-on-primary transition-colors text-center block">
+                        View Logbook
+                    </button>
+</section>
+</div>
+<footer class="mt-16 pt-8 border-t-8 border-primary text-center pb-8">
+<p class="font-headline font-black text-4xl opacity-20 uppercase tracking-tighter">NIMBUS // INTERNAL USE ONLY</p>
+</footer>
+</div>
+</main>
+</body></html>
