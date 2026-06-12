@@ -1,18 +1,21 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { executives, meetings } from "@/lib/demo-data";
-import { askBoard } from "@/lib/board-api";
+import { executives, type MeetingRecord } from "@/lib/demo-data";
+import { askBoard, retrieveDiscussion } from "@/lib/board-api";
 import { readJSON, STORAGE_KEYS, writeJSON } from "@/lib/client-store";
 
 export default function MeetingDetailPage() {
   const params = useParams<{ id: string }>();
   const router = useRouter();
-  const meeting = useMemo(() => meetings.find((m) => m.id === params.id), [params.id]);
+  const [meeting, setMeeting] = useState<MeetingRecord | null>(null);
   const [question, setQuestion] = useState("");
-  const [dynamicConfidence, setDynamicConfidence] = useState<number | null>(null);
-  const [recommendation, setRecommendation] = useState(meeting?.recommendation ?? "PROCEED WITH CAUTION (PHASED ROLLOUT)");
+  const [ratified, setRatified] = useState(false);
+
+  useEffect(() => {
+    retrieveDiscussion(params.id).then(setMeeting);
+  }, [params.id]);
 
   if (!meeting) {
     return (
@@ -29,14 +32,15 @@ export default function MeetingDetailPage() {
   async function onAskBoard() {
     if (!question.trim()) return;
     const response = await askBoard(meeting!.id, question);
-    setDynamicConfidence(response.confidence);
-    setRecommendation(response.recommendation);
+    setMeeting(response.meeting);
     setQuestion("");
   }
 
   function onRatify() {
     const existing = readJSON(STORAGE_KEYS.decisions, []);
-    writeJSON(STORAGE_KEYS.decisions, [{ title: recommendation, note: `Ratified from ${meeting!.title}` }, ...existing]);
+    writeJSON(STORAGE_KEYS.decisions, [{ title: meeting!.recommendation, note: `Ratified from ${meeting!.title}` }, ...existing]);
+    setRatified(true);
+    setTimeout(() => setRatified(false), 1200);
   }
 
   return (
@@ -75,6 +79,24 @@ export default function MeetingDetailPage() {
         <section className="relative flex min-h-[70vh] flex-col">
           <div className="flex-1 space-y-6 overflow-y-auto p-6 pb-36">
             <div className="border-y-2 border-dashed border-[#1a1a1a] py-2 text-center font-mono text-xs font-bold uppercase">09:42 AM UTC</div>
+            <div className="grid gap-4 md:grid-cols-2">
+              <article className="neo-border bg-red-50 p-4">
+                <h3 className="font-headline text-lg font-black uppercase">Risks</h3>
+                <ul className="mt-2 list-disc pl-5 font-body text-sm">
+                  {meeting.risks.map((risk) => (
+                    <li key={risk}>{risk}</li>
+                  ))}
+                </ul>
+              </article>
+              <article className="neo-border bg-blue-50 p-4">
+                <h3 className="font-headline text-lg font-black uppercase">Opportunities</h3>
+                <ul className="mt-2 list-disc pl-5 font-body text-sm">
+                  {meeting.opportunities.map((opportunity) => (
+                    <li key={opportunity}>{opportunity}</li>
+                  ))}
+                </ul>
+              </article>
+            </div>
             {meeting.turns.map((turn) => (
               <article key={turn.id} className={`max-w-3xl ${turn.speaker === "Vault" ? "ml-auto text-right" : ""}`}>
                 <p className="mb-1 font-label text-xs font-bold uppercase">
@@ -90,13 +112,14 @@ export default function MeetingDetailPage() {
           <div className="pointer-events-none absolute bottom-24 left-1/2 w-[95%] max-w-3xl -translate-x-1/2">
             <div className="pointer-events-auto border-4 border-[#1a1a1a] bg-white p-4 neo-shadow">
               <p className="font-label text-xs font-bold uppercase">System Consensus</p>
-              <p className="font-headline text-2xl font-black uppercase text-blue-700">{recommendation}</p>
+              <p className="font-headline text-2xl font-black uppercase text-blue-700">{meeting.recommendation}</p>
               <div className="mt-2 flex items-center justify-between">
-                <p className="font-mono text-xs uppercase">Confidence {(dynamicConfidence ?? meeting.confidence)}%</p>
+                <p className="font-mono text-xs uppercase">Confidence {meeting.confidence}%</p>
                 <button onClick={onRatify} className="border-4 border-[#1a1a1a] bg-[#1a1a1a] px-4 py-2 font-label text-xs font-bold uppercase text-white">
                   Ratify
                 </button>
               </div>
+              {ratified ? <p className="toast-success mt-2 border border-green-700 bg-green-100 px-2 py-1 font-body text-xs">Recommendation ratified and added to Decision History.</p> : null}
             </div>
           </div>
 

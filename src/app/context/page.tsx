@@ -1,4 +1,15 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { retrieveContext } from "@/lib/board-api";
+
 export default function StartupContextPage() {
+  const [context, setContext] = useState({ startup: "Nimbus", stage: "Series A", runwayMonths: 18 });
+
+  useEffect(() => {
+    retrieveContext().then(setContext);
+  }, []);
+
   return (
     <div className="min-h-screen bg-[#f5f0e8] p-6 text-[#1a1a1a] md:p-8">
       <header className="mb-8 border-b-4 border-[#1a1a1a] pb-4">
@@ -6,8 +17,10 @@ export default function StartupContextPage() {
       </header>
       <div className="grid gap-5 lg:grid-cols-3">
         <article className="neo-border bg-white p-5">
-          <h2 className="font-headline text-2xl font-black uppercase">Nimbus</h2>
-          <p className="mt-2 font-body text-sm">Series A B2B workflow intelligence platform expanding into EU enterprise accounts.</p>
+          <h2 className="font-headline text-2xl font-black uppercase">{context.startup}</h2>
+          <p className="mt-2 font-body text-sm">
+            {context.stage} B2B workflow intelligence platform with {context.runwayMonths} months of runway.
+          </p>
         </article>
         <article className="neo-border bg-white p-5">
           <h2 className="font-headline text-2xl font-black uppercase">Top Risks</h2>

@@ -65,10 +65,13 @@ export default function Sidebar() {
 
       {/* Bottom Actions */}
       <div className="mt-auto pt-8 border-t-3 border-dashed border-graphite">
-        <button className="w-full bg-primary text-primary-foreground font-headline font-black uppercase p-4 border-3 border-black brutal-shadow-amber brutal-hover brutal-active active:scale-95 transition-transform mb-6 text-lg tracking-tighter flex items-center justify-center gap-2">
+        <Link
+          href="/meetings?new=1"
+          className="w-full bg-primary text-primary-foreground font-headline font-black uppercase p-4 border-3 border-black brutal-shadow-amber brutal-hover brutal-active active:scale-95 transition-transform mb-6 text-lg tracking-tighter flex items-center justify-center gap-2"
+        >
           <PlusSquare className="h-5 w-5" />
           <span>New Meeting</span>
-        </button>
+        </Link>
         
         <div className="flex flex-col gap-2 opacity-80 font-label">
           <Link 

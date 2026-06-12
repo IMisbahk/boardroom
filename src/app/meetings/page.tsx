@@ -1,17 +1,34 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
-import { meetings } from "@/lib/demo-data";
-import { createMeeting } from "@/lib/board-api";
+import { useEffect, useState } from "react";
+import { createMeeting, listBoardMeetings } from "@/lib/board-api";
+import type { MeetingRecord } from "@/lib/demo-data";
+import { useRouter } from "next/navigation";
 
 export default function MeetingsPage() {
+  const router = useRouter();
   const [topic, setTopic] = useState("");
+  const [meetings, setMeetings] = useState<MeetingRecord[]>([]);
+
+  useEffect(() => {
+    listBoardMeetings().then(setMeetings);
+  }, []);
+
+  useEffect(() => {
+    const newMeetingMode = new URLSearchParams(window.location.search).get("new");
+    if (newMeetingMode === "1") {
+      const element = document.getElementById("meeting-topic");
+      element?.focus();
+    }
+  }, []);
 
   async function onStartMeeting() {
     if (!topic.trim()) return;
-    await createMeeting(topic);
+    const created = await createMeeting(topic);
+    setMeetings((current) => [created, ...current.filter((meeting) => meeting.id !== created.id)]);
     setTopic("");
+    router.push(`/meetings/${created.id}`);
   }
 
   return (
@@ -30,6 +47,12 @@ export default function MeetingsPage() {
       </header>
 
       <div className="grid gap-5">
+        {meetings.length === 0 ? (
+          <article className="meeting-item neo-border bg-white p-5">
+            <h2 className="font-headline text-2xl font-black uppercase">No Meetings Yet</h2>
+            <p className="font-body text-sm">Create your first board discussion using the topic input above.</p>
+          </article>
+        ) : null}
         {meetings.map((meeting) => (
           <Link key={meeting.id} href={`/meetings/${meeting.id}`} className="meeting-item neo-border bg-white p-5 hover:bg-[#f2ede5]">
             <div className="flex flex-wrap items-center justify-between gap-4">

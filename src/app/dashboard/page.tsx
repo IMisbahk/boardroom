@@ -4,13 +4,16 @@ import { useEffect, useMemo, useState } from "react";
 import { dashboardTiles, reports as defaultReports } from "@/lib/demo-data";
 import { readJSON, STORAGE_KEYS } from "@/lib/client-store";
 import { AlertTriangle, Gavel, Lightbulb, MessageSquare } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 type DecisionLog = { title: string; note: string };
 type ReportLog = { id: string };
 
 export default function DashboardPage() {
+  const router = useRouter();
   const [decisions, setDecisions] = useState<DecisionLog[]>(dashboardTiles.decisions);
   const [reportCount, setReportCount] = useState(defaultReports.length);
+  const [acked, setAcked] = useState(false);
 
   useEffect(() => {
     setDecisions(readJSON(STORAGE_KEYS.decisions, dashboardTiles.decisions));
@@ -19,6 +22,11 @@ export default function DashboardPage() {
   }, []);
 
   const latestDecisions = useMemo(() => decisions.slice(0, 3), [decisions]);
+
+  function onAcknowledge() {
+    setAcked(true);
+    setTimeout(() => setAcked(false), 1200);
+  }
 
   return (
     <div className="min-h-screen bg-[#f5f0e8] text-[#1a1a1a]">
@@ -37,9 +45,14 @@ export default function DashboardPage() {
           <h2 className="font-label text-xs font-bold uppercase">Primary Directive</h2>
           <p className="mt-3 font-headline text-4xl font-black uppercase leading-tight md:text-5xl">{dashboardTiles.directive}</p>
           <div className="mt-6 flex gap-4">
-            <button className="border-4 border-[#1a1a1a] bg-[#1a1a1a] px-5 py-2 font-label text-xs font-bold uppercase text-white">Acknowledge</button>
-            <button className="border-4 border-[#1a1a1a] bg-transparent px-5 py-2 font-label text-xs font-bold uppercase">View Analysis</button>
+            <button onClick={onAcknowledge} className="border-4 border-[#1a1a1a] bg-[#1a1a1a] px-5 py-2 font-label text-xs font-bold uppercase text-white">
+              Acknowledge
+            </button>
+            <button onClick={() => router.push("/meetings/nimbus")} className="border-4 border-[#1a1a1a] bg-transparent px-5 py-2 font-label text-xs font-bold uppercase">
+              View Analysis
+            </button>
           </div>
+          {acked ? <p className="toast-success mt-3 border border-green-800 bg-green-100 px-2 py-1 font-body text-xs">Directive acknowledged by founder.</p> : null}
         </section>
 
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
